@@ -54,18 +54,18 @@ function setup() {
 
 function draw() {
   background(255);
-   
+  edges = createEdgeSprites();
 
 
-  
   if (gameState === PLAY) {
 
     if (keyDown(LEFT_ARROW)) {
-      player.y = player.y - 20;
+      player.x = player.x - 20;
     }
     if (keyDown(RIGHT_ARROW)) {
       player.x = player.x + 20;
     }
+
     if (background1.x < 0) {
       background1.x = ground.width;
     }
@@ -73,30 +73,38 @@ function draw() {
     if (ground.x < 0) {
       ground.x = background1.width;
     }
-
-
+    if (StonesGroup.isTouching(edges[3])) {
+      StonesGroup.destroyEach();
+    }
+    
     if (BananasGroup.isTouching(player)) {
       BananasGroup.destroyEach();
       playerScore = playerScore + 2;
-     
-     
-      switch(playerScore>0 && playerScore%100 === 0) {
-        case 10 : player.scale = player.scale + 0.3;
-                 break; 
-        case 20 : player.scale = player.scale + 0.1;
-                 break;  
-        case 30 : player.scale = player.scale + 0.2;
-                 break; 
-        case 40 : player.scale = player.scale + 0.15;
-                 break;  
-        case 50 : player.scale = player.scale + 0.23;
-                 break;          
-                 
-        default: break;
-      }
-      
-      
     }
+
+    if (playerScore > 0 && playerScore % 10 === 0) {
+      switch (playerScore) {
+        case 10:
+          player.scale = player.scale + 0.26;
+          break;
+        case 20:
+          player.scale = player.scale + 0.1;
+          break;
+        case 30:
+          player.scale = player.scale + 0.2;
+          break;
+        case 40:
+          player.scale = player.scale + 0.15;
+          break;
+        case 50:
+          player.scale = player.scale + 0.23;
+          break;
+
+        default:
+          break;
+      }
+    }
+
 
     banana();
     obstacles();
